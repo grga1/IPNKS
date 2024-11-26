@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registiraj let</title>
+    <style>
+ h1{
+     text-align: center;
+ }
+ #name{
+     margin-left: 60px;
+     margin-bottom: 10px;
+ }
+ #oznaka{
+     margin-left: 44px;
+     margin-bottom: 10px;
+ }
+ #koordinati{
+     margin-left: 35px;
+     margin-bottom: 10px;
+ }
+ #radius{
+     margin-left: 68px;
+     margin-bottom: 10px;
+ }
+#visina{
+    margin-left: 65px;
+    margin-bottom: 10px;
+}
+#tip{
+    margin-left: 60px;
+    margin-bottom: 10px;
+}
+li{
+    width: 200px;
+    margin-bottom: 10px;
+}
+    </style>
+</head>
+<body>
+<h1>Регистрирај лет</h1>
+ <label>Име и презиме<input type="text" id="name"></label> <br>
+ <label>Ознака на летало<input type="text" id="oznaka"></label> <br>
+ <label>Координати на лет<input type="text" id="koordinati"></label> <br>
+ <label>Радиус на лет<input type="number" id="radius"></label> <br>
+ <label>Висина на лет<input type="number" id="visina"></label> <br>
+ <label for="tip">Тип на летало
+     <select name="tip" id="tip">
+         <option value="edrilica">edrilica</option>
+         <option value="dron">dron</option>
+     </select>
+ </label><br>
+<button type="button" id="button">Најави</button><br>
+    <h3>Регистрирани летови</h3>
+<p>Вкупно најавени летови <span id="najaveniletovi">0</span></p>
+
+<ul id="lista-letovi">
+
+</ul>
+<script type="text/javascript">
+
+let counter=0;
+
+ document.getElementById('button').addEventListener('click',function (e){
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const oznaka = document.getElementById('oznaka').value;
+    const koordinati = document.getElementById('koordinati').value;
+    const radius = document.getElementById('radius').value;
+    const visina = document.getElementById('visina').value;
+    const tip = document.getElementById('tip').value;
+
+    if(!name||!oznaka||!koordinati||!radius||!visina||!tip){
+        alert("Gi nemas site polinja popolneto!");
+    }
+    let proverka_za_cetiri_cifri=false;
+
+     if(!(oznaka[0]==="Z"&&oznaka[1]==="3"&&oznaka[2]==="-"&&oznaka[3]==="U"&&oznaka[4]==="N"&&oznaka[5]==="R"&&oznaka[6]==="-"&&!isNaN(parseInt(oznaka[7]))&&!isNaN(parseInt(oznaka[8]))&&!isNaN(parseInt(oznaka[9]))&&!isNaN(parseInt(oznaka[10])))){
+      alert("NE E VO RED OZNAKATA!");
+      return;
+     }
+     else
+         if(parseInt(oznaka[7])===parseInt(oznaka[8])&&parseInt(oznaka[7])===parseInt(oznaka[9])&&parseInt(oznaka[7])===parseInt(oznaka[10]))
+         {
+
+             proverka_za_cetiri_cifri=true;
+         }
+
+if(proverka_za_cetiri_cifri==false) {
+    if (radius > 500 || visina > 150) {
+        alert("Gi imas precekoreno vrednostite za radius i visina");
+    }
+}
+   if(tip==="edrilica"){
+
+      let li=document.createElement('li');
+       li.style.border="2px solid black";
+
+       li.innerHTML=`<p>${name},${oznaka}</p>
+ <p>Radius:${radius},Visina:${visina}</p>
+ <p>Edrilica</p>
+  <button class="button-potvrdi">Potvrdi</button>
+  <button class="button-otkazi">Otkazi</button>
+       `;
+
+       let ul = document.getElementById('lista-letovi');
+       ul.appendChild(li);
+
+       li.querySelector('.button-potvrdi').addEventListener('click',function (){
+           li.style.backgroundColor="green";
+       });
+
+       document.getElementById('najaveniletovi').innerText=++counter;
+
+       li.querySelector('.button-otkazi').addEventListener('click',function (){
+           li.remove();
+           document.getElementById('najaveniletovi').innerText=--counter;
+
+       });
+
+   }
+   else {
+
+       let li=document.createElement('li');
+
+       if(parseInt(visina)===parseInt(radius)){
+           li.style.border="2px solid black";
+       }
+
+       li.innerHTML=`<p>${name},${oznaka}</p>
+ <p>Radius:${radius},Visina:${visina}</p>
+ <p>Dron</p>
+  <button class="button-potvrdi">Potvrdi</button>
+  <button class="button-otkazi">Otkazi</button>
+       `;
+
+       let ul = document.getElementById('lista-letovi');
+       ul.appendChild(li);
+
+       document.getElementById('najaveniletovi').innerText=++counter;
+
+       li.querySelector('.button-potvrdi').addEventListener('click',function (){
+          li.style.backgroundColor="green";
+       });
+
+       li.querySelector('.button-otkazi').addEventListener('click',function (){
+          li.remove();
+           document.getElementById('najaveniletovi').innerText=--counter;
+
+       });
+   }
+
+     document.getElementById('name').value = "";
+     document.getElementById('oznaka').value = "";
+     document.getElementById('koordinati').value = "";
+     document.getElementById('radius').value = "";
+     document.getElementById('visina').value = "";
+     document.getElementById('tip').value = "edrilica";
+
+ });
+
+
+
+
+
+
+ // Z3-UNR-1234
+</script>
+
+</body>
+
+</html>
+
