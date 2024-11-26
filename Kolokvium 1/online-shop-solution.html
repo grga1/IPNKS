@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online shop</title>
+    <style>
+h1{
+    text-align: center;
+}
+table,tr,td,th{
+    border-collapse: collapse;
+    border: 2px solid black;
+    height: 10px;
+}
+.tabeli{
+    width: 100%;
+display: flex;
+}
+.t1>p{
+    text-align: center;
+    font-weight: bold;
+}
+#table2{
+    margin-left: 30px;
+}
+.t2>p{
+    text-align: center;
+ font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+<h1>Online shop</h1>
+<label>Name and surname <input type="text" id="name"></label><br>
+<label>Item <input type="text" id="item"></label><br>
+<label>Item code<input type="text" id="code"></label><br>
+<label>Item description<input type="text" id="description"></label><br>
+<label>Price<input type="text" id="price"></label><br>
+<label for="use">Used
+    <select name="use" id="use">
+        <option value="used">used</option>
+        <option value="unused">unused</option>
+    </select>
+    </label><br>
+<button type="button" id="button">Add</button><br>
+<p>Active items <span id="activeitems">0</span></p>
+
+<div class="tabeli">
+    <div class="t1">
+        <p>Unused items</p>
+    <table id="table1">
+        <tr>
+            <th>Name</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Code</th>
+            <th>Number</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    </div>
+
+    <div class="t2">
+    <table id="table2">
+        <p>Used items</p>
+        <tr>
+            <th>Name</th>
+            <th>Item</th>
+            <th>Price</th>
+            <th>Code</th>
+            <th>Number</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    let counter=0;
+
+    document.getElementById('button').addEventListener('click',function (e){
+       e.preventDefault();
+
+       const name = document.getElementById('name').value;
+       const item = document.getElementById('item').value;
+        const code = document.getElementById('code').value;
+        const description = document.getElementById('description').value;
+       const price = parseInt(document.getElementById('price').value);
+       const used = document.getElementById('use').value;
+
+       if(!name||!item||!code||!description||!price){
+           alert("Gi nemate vneseno site podatoci");
+           return;
+       }
+
+      if(price<=0){
+          alert("cenata ne e vo red");
+          return;
+      }
+
+      let newprice = price+((price/100)*10); //nova cena
+
+      let number="";
+
+        for (let i = 0; i < code.length; i++) {
+            if(code[i]!="1"&&code[i]!="2"&&code[i]!="3"&&code[i]!="4"&&code[i]!="5"&&code[i]!="6"&&code[i]!="7"&&code[i]!="8"&&code[i]!="9"&&code[i]!="!"){
+                number+=code[i];
+            }
+        }
+
+
+
+       if(used==="unused"){
+           let table = document.getElementById('table1');
+
+           for (let i = 1; i <table.rows.length ; i++) {
+               console.log(table.rows[i].cells[4].innerText);
+               if(table.rows[i].cells[4].innerText===number){
+                   alert("Vnesi drug kod");
+                   return;
+               }
+           }
+
+           let row=table.insertRow();
+           row.insertCell(0).innerText=name;
+           row.insertCell(1).innerText=item;
+           row.insertCell(2).innerText=newprice;
+           row.insertCell(3).innerText=code;
+           row.insertCell(4).innerText=number;
+           row.insertCell(5).innerHTML=`<button class="button-sold">Sold</button>`;
+
+           document.getElementById('activeitems').innerText=++counter;
+
+           row.querySelector('.button-sold').addEventListener('click',function(){
+               row.style.backgroundColor="orange";
+               row.cells[5].innerText="";
+               document.getElementById('activeitems').innerText=--counter;
+           });
+       }
+       else {
+           let table = document.getElementById('table2');
+
+           for (let i = 1; i <table.rows.length ; i++) {
+               console.log(table.rows[i].cells[4].innerText);
+               if(table.rows[i].cells[4].innerText===number){
+                   alert("Vnesi drug kod");
+                   return;
+               }
+           }
+
+           let row=table.insertRow();
+           row.insertCell(0).innerText=name;
+           row.insertCell(1).innerText=item;
+           row.insertCell(2).innerText=newprice;
+           row.insertCell(3).innerText=code;
+           row.insertCell(4).innerText=number;
+           row.insertCell(5).innerHTML=`<button class="button-sold">Sold</button>`;
+
+           document.getElementById('activeitems').innerText=++counter;
+
+
+           row.querySelector('.button-sold').addEventListener('click',function(){
+           row.style.backgroundColor="orange";
+           row.cells[5].innerText="";
+               document.getElementById('activeitems').innerText=--counter;
+
+           });
+       }
+
+
+    });
+</script>
+</body>
+</html>
