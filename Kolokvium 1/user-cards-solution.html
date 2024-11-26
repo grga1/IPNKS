@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online shop</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        span{
+            font-weight: bold;
+        }
+        .containers{
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>User cards</h1>
+<label>Username<input type="text" id="username"></label> <br>
+<label>Width<input type="number" id="width">px</label> <br>
+<label>Height<input type="number" id="height">px</label> <br>
+<label>Card ID<input type="text" id="id"></label> <br>
+<label for="color">
+    Color
+    <select name="color" id="color">
+        <option value="red">red</option>
+        <option value="green">green</option>
+        <option value="blue">blue</option>
+        <option value="yellow">yellow</option>
+    </select>
+</label> <br>
+<button id="kopce"  type="button">Create</button> <br>
+
+<p>Total value of sold cards:<span id="number">0</span></p>
+ <div class="containers">
+
+ </div>
+ <script type="text/javascript">
+   let sum=0;
+
+   document.getElementById('kopce').addEventListener('click',function(e){
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const width = parseInt(document.getElementById('width').value);
+      const height = parseInt(document.getElementById('height').value);
+      const id = document.getElementById('id').value;
+      const color = document.getElementById('color').value;
+
+      if(!username||!width||!height||!id||!color){
+          alert("Imase propusteno neko pole, prazno e!");
+          return;
+      }
+
+      if(width>350||height>350||width<=0||height<=0){
+          alert("Imas vneseno losi dimenzii");
+          return;
+      }
+
+       if (/[0-9]/.test(id)) {
+           alert("The ID contains invalid characters (e.g., numbers are not allowed).");
+           return;
+       }
+
+
+       if (document.querySelector(`.containers [data-id="${id}"]`)) {
+           let kontejnerce = document.querySelector(`.containers [data-id="${id}"]`);
+           kontejnerce.style.backgroundColor=color;
+           kontejnerce.style.width=width+"px";
+           kontejnerce.style.height=height+"px";
+           return;
+       }
+
+
+       const value=width*height*0.5;
+
+       let container = document.createElement('div');
+      container.style.backgroundColor=color;
+      container.style.display="inline-block";
+      container.style.marginLeft="10px";
+      container.style.textAlign="center";
+      container.style.width=width+"px";
+      container.style.height=height+"px";
+      container.setAttribute('data-id',id);
+      container.id=id;
+
+       container.innerHTML=`<p>ID:${id}</p>
+      <p>Width:${width}px</p>
+      <p>Height:${height}px</p>
+      <p>Value:${value}px</p>
+       <button class="sell-button">Sell</button>
+       `;
+
+       let containers=document.querySelector('.containers');
+       containers.appendChild(container);
+
+
+
+       container.querySelector('.sell-button').addEventListener('click',function (){
+           let number = document.getElementById('number');
+           let x=parseInt(number.innerText);
+           x+=value;
+           number.innerText=x;
+           container.remove();
+       });
+
+
+   });
+</script>
+</body>
+</html>
