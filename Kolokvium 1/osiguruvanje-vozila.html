@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Osiguruvanje vozila</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        .kontejneri{
+            width: 200px;
+            height: 250px;
+            display: inline-block;
+            margin-left: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Osiguruvanje na vozila</h1>
+<label>Ime <input type="text" id="name"></label><br>
+<label>Prezime <input type="text" id="surname"></label><br>
+<label>Registarska tablica <input type="text" id="registracija"></label><br>
+<label>Godina na starost <input type="number" id="godina"></label><br>
+<label>Soobrakajna nezgoda:
+    <input name="nezgoda" type="radio" id="yes" value="yes">Da
+    <input name="nezgoda"  type="radio" id="no" value="no" checked>Ne
+</label><br>
+<button type="button" id="button">Generiraj smetka</button>
+<h3>Smetki</h3>
+<p>Vkupno smetki za plakanje: <span id="brojsmetki">0</span></p>
+
+<div id="smetki">
+
+</div>
+</body>
+
+<script type="text/javascript">
+  let counter=0;
+
+  document.getElementById('button').addEventListener('click',function (e){
+     e.preventDefault();
+
+     const ime = document.getElementById('name').value;
+     const prezime = document.getElementById('surname').value;
+     const registracija = document.getElementById('registracija').value;
+     const godina = document.getElementById('godina').value;
+     const nezgodaDa = document.getElementById('yes').checked;
+     const nezgodaNe = document.getElementById('no').checked;
+
+    if(nezgodaDa===false&&nezgodaNe===false){
+    alert("Ne e popolneto poleto za nezgoda");
+    return;
+    }
+
+    if(!ime||!prezime||!registracija||!godina){
+         alert("Gi nemas site polinja popolneto");
+    }
+
+    if(!(/^[A-Z]+$/.test(registracija[0])&&/^[A-Z]+$/.test(registracija[1])&&registracija[2]==="-"&&/^[0-9]+$/.test(registracija[3])&&/^[0-9]+$/.test(registracija[4])&&/^[0-9]+$/.test(registracija[5])&&/^[0-9]+$/.test(registracija[6])&&registracija[7]==="-"&&/^[A-Z]+$/.test(registracija[8])&&/^[A-Z]+$/.test(registracija[9]))) {
+        alert("Pogresno e vnesena registracijata");
+        return;
+    }
+
+   let cena=3000;
+
+    if(registracija[3]===registracija[4]&&registracija[3]===registracija[5]&&registracija[3]===registracija[6]){
+        cena+=1000;
+    }
+
+    if (nezgodaDa){
+        cena+=500;
+    }
+
+    let kontejner = document.createElement('div');
+    kontejner.className='kontejneri';
+    if(godina>30){
+        kontejner.style.backgroundColor="red";
+    }
+    else
+    {
+        kontejner.style.backgroundColor="green";
+
+    }
+    let text="";
+if(nezgodaDa){
+    text="Има";
+}
+else{
+    text="Нема";
+}
+    kontejner.innerHTML=`<p>${ime} ${prezime}</p>
+      <p>${registracija}</p>
+      <p>Soobrakajki:${text}</p>
+      <p>Starost na vozilo ${godina}</p>
+      <p>Za plakanje ${cena}</p>
+      <button class="button-plati">Plati</button>
+      <button class="button-izbrisi">Izbrisi</button>
+`;
+
+document.getElementById('brojsmetki').innerText=++counter;
+
+    let lista = document.getElementById('smetki');
+    lista.appendChild(kontejner);
+
+
+      kontejner.querySelector('.button-izbrisi').addEventListener('click',function (){
+          kontejner.remove();
+          document.getElementById('brojsmetki').innerText=--counter;
+      })
+
+    kontejner.querySelector('.button-plati').addEventListener('click',function (){
+        document.getElementById('brojsmetki').innerText=--counter;
+
+        kontejner.querySelector('.button-plati').disabled=true;
+        kontejner.querySelector('.button-izbrisi').disabled=true;
+    })
+
+      document.getElementById('name').value="";
+      document.getElementById('surname').value="";
+      document.getElementById('registracija').value="";
+      document.getElementById('godina').value="";
+      document.getElementById('yes').checked="";
+      document.getElementById('no').checked="";
+
+  });
+
+
+</script>
+</html>
