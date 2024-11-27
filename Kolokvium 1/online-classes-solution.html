@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Online classes</title>
+    <style>
+        h1{
+            text-align: center;
+        }
+        table,th,td{
+            text-align: center;
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h1>Online classes</h1>
+<label>Name and surname <input type="text" id="name"></label> <br>
+<label>Email <input type="text" id="email"></label> <br>
+<label>Age <input type="number" id="age"></label> <br>
+<label>Username <input type="text" id="username"></label> <br>
+<label>Password<input type="password" id="password" ></label> <br>
+<label for="role">
+  Role
+    <select name="role" id="role">
+    <option id="teacher" value="teacher">teacher</option>
+    <option id="student" value="student">student</option>
+</select></label> <br>
+<button type="button" id="button">Add</button> <br>
+<p>Availabe teachers <span id="nt">0</span></p>
+<h3>User</h3>
+<table id="table">
+    <tr>
+        <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Age</th>
+    <th>Role</th>
+    <th>Actions</th>
+    </tr>
+</table>
+
+<script type="text/javascript">
+    let counter=0;
+    document.getElementById('button').addEventListener('click',function (e){
+       e.preventDefault();
+
+       const name = document.getElementById('name').value;
+       const email = document.getElementById('email').value;
+       const age = document.getElementById('age').value;
+       const username = document.getElementById('username').value;
+       const password = document.getElementById('password').value;
+       const role = document.getElementById('role').value;
+
+       if(!name||!email||!age||!username||!password){
+           alert("Gi nemas site polinja popolneto!");
+           return;
+       }
+
+        let table = document.getElementById('table');
+
+        for (let i = 1; i < table.rows.length; i++) {
+            if(table.rows[i].cells[1].innerText===username){
+                alert("SMENI GO USEROT");
+                return;
+            }
+
+        }
+
+        let button = document.createElement('button');
+
+        let row = document.createElement('tr');
+
+        if(password.length<10){
+            alert("Passwordot mora da bide podolg ili ednakov na 10");
+            return;
+        }
+        else
+        {
+            if(/^[A-Z]+$/.test(password)||(/^[0-9]+$/.test(password)))   {
+                alert("MORA PASSWORDOT DA SODRZI BAREM EDNA BROJKA I BAREM EDNA GOLEMA BUKVA")
+             return;
+            }
+        }
+
+        if(role==="teacher") {
+            if(age<18){
+                alert("NEMAS DOVOLNO GODINI ZA NASTAVNIK");
+                return;
+            }
+            row.style.backgroundColor="lightgreen";
+            row.innerHTML = `<td>${name}</td>
+          <td>${username}</td>
+          <td>${email}</td>
+          <td>${age}</td>
+          <td>${role}</td>
+          <td><button class="button-teacher">Hire</button></td>
+`;
+            document.getElementById('nt').innerText=++counter;
+            table.appendChild(row);
+  row.querySelector('.button-teacher').addEventListener('click',function (){
+      row.style.backgroundColor="gray";
+      const actionsCell = row.cells[5];
+      actionsCell.style.backgroundColor = "white";
+      actionsCell.style.border = "none";
+      actionsCell.style.textAlign = "center";
+      actionsCell.innerText="";
+      document.getElementById('nt').innerText=--counter;
+
+  })
+
+        }
+        else
+        {
+            row.style.backgroundColor="lightblue";
+            row.innerHTML = `<td >${name}</td >
+          <td>${username}</td>
+          <td>${email}</td>
+          <td>${age}</td>
+          <td>${role}</td>
+
+
+`;
+    table.appendChild(row);
+
+        }
+
+
+        document.getElementById('name').value="";
+        document.getElementById('email').value="";
+        document.getElementById('age').value="";
+        document.getElementById('username').value="";
+        document.getElementById('password').value="";
+
+    });
+</script>
+</body>
+</html>
