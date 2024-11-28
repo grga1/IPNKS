@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Cetvrta zadaca</title>
+</head>
+<style>
+#perfekten{
+    display: none;
+}
+</style>
+<body>
+<label><input type="number" id="number"></label>
+<button type="button" id="button1"><</button>
+<button type="button" id="button2">></button>
+<button type="button" id="button3">FLIP</button>
+<button type="button" id="button4">STORE</button>
+<button type="button" id="button5">CHECK</button><br>
+<p id="perfekten"></p>
+
+<ul id="lista">
+
+</ul>
+
+<script type="text/javascript">
+    document.getElementById('button1').addEventListener('click',function (e){
+       e.preventDefault();
+       let number=document.getElementById('number').value;
+       number=number.split('');
+       console.log(number);
+
+       let newarray = [];
+       newarray.length=number.length;
+       let j=0;
+        for (let i = 1; i < number.length; i++) {
+                newarray[j++]=number[i];
+        }
+ newarray[j]=number[0];
+        newarray=newarray.join('');
+        console.log(newarray);
+        document.getElementById('number').value=newarray;
+    });
+
+    document.getElementById('button2').addEventListener('click',function (e){
+       e.preventDefault();
+        let number=document.getElementById('number').value;
+        number=number.split('');
+        let golemina=number.length-1;
+console.log(number);
+console.log(number[golemina]);
+        let newarray = [];
+        newarray.length=number.length;
+        let j=1;
+        for (let i = 0; i < number.length-1; i++) {
+            newarray[j++]=number[i];
+        }
+
+        newarray[0]=number[golemina];
+        newarray=newarray.join('');
+        console.log(newarray);
+        document.getElementById('number').value=newarray;
+    });
+
+    document.getElementById('button3').addEventListener('click',function (e){
+       e.preventDefault();
+       let number = document.getElementById('number').value;
+       number=number.split('');
+       let newarray=[];
+       let j=0;
+        for (let i = number.length-1; i>=0 ; i--) {
+         newarray[j++]=number[i];
+        }
+        newarray=newarray.join('');
+        document.getElementById('number').value=newarray;
+    });
+
+
+    document.getElementById('button5').addEventListener('click',function (e){
+   e.preventDefault();
+   let broj = document.getElementById('number').value;
+   let counter=0;
+   let j=0;
+        for (let i = 1; i <broj.length; i++) {
+           if(parseInt(broj[j++])%2===0&&parseInt(broj[i])%2===0){
+               counter++;
+               break;
+           }
+        }
+        if(counter===1){
+let perfekten = document.getElementById('perfekten');
+perfekten.style.display="block";
+perfekten.textContent="Perfekten";
+        }
+    });
+
+
+    document.getElementById('button4').addEventListener('click',function (e){
+  let number = document.getElementById('number').value;
+  if(number===""){
+      alert("nemas vneseno broj");
+      return;
+  }
+  let lista = document.getElementById('lista');
+  let li = document.createElement('li');
+  li.textContent=number;
+  lista.appendChild(li);
+  document.getElementById('number').value="";
+  document.getElementById('perfekten').style.display="none";
+    });
+
+
+</script>
+</body>
+</html>
