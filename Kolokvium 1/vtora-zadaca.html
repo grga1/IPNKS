@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+
+</style>
+<body>
+
+<label><input id="number1"></label>
+<button type="button" id="left1"><</button>
+<button type="button" id="right1">></button>
+<button type="button" id="convert">Convert</button>
+<button type="button" id="store">Store</button>
+<button type="button" id="check">Check</button>
+<p id="sovrsen"></p>
+<br>
+<br>
+<ul id="lista">
+
+</ul>
+<script type="text/javascript">
+    document.getElementById('left1').addEventListener('click',function (e){
+       e.preventDefault();
+       let array = document.getElementById('number1').value;
+       array=array.split('');
+       let a= array.shift();
+       let b= array.shift();
+       array.push(a);
+       array.push(b);
+       array=array.join('');
+       document.getElementById('number1').value=array;
+    });
+
+    document.getElementById('right1').addEventListener('click',function (e){
+        e.preventDefault();
+        let array = document.getElementById('number1').value;
+        array=array.split('');
+        let a= array.pop();
+        let b= array.pop();
+        array.unshift(a);
+        array.unshift(b);
+        array=array.join('');
+        document.getElementById('number1').value=array;
+    });
+
+    document.getElementById('convert').addEventListener('click',function (e){
+        e.preventDefault();
+        let array = document.getElementById('number1').value;
+        array=array.split('');
+        for (let i = 0; i < array.length; i++) {
+            if((parseInt(array[i])-2)<0){
+                array[i]=10-2;
+            }else
+            {
+                array[i]=parseInt(array[i])-2;
+            }
+        }
+        for (let i = 0; i < array.length; i++) {
+            console.log(array[i]);
+        }
+        array=array.join('');
+
+        document.getElementById('number1').value=array;
+
+
+    });
+
+    document.getElementById('check').addEventListener('click',function (e){
+        e.preventDefault();
+        let array = document.getElementById('number1').value;
+        array=array.split('');
+        let counter=0;
+        for (let i = 0; i < array.length; i++) {
+  if(parseInt(array[i])%3===0){
+      counter++;
+  }
+        }
+      if(counter>=3){
+  let sovrsen = document.getElementById('sovrsen');
+  sovrsen.textContent = "Sovrsen";
+      }
+      else{
+          sovrsen.textContent = "Ne e sovrsen";
+
+      }
+    });
+
+
+    document.getElementById('store').addEventListener('click',function (e){
+        e.preventDefault();
+        let array = document.getElementById('number1').value;
+        array=array.split('');
+let ul = document.getElementById('lista');
+let li = document.createElement('li');
+li.textContent=array;
+ul.appendChild(li);
+    });
+
+
+</script>
+</body>
+</html>
