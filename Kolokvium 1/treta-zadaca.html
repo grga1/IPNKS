@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+<label><input id="number1"></label>
+<button type="button" id="left1"><</button>
+<button type="button" id="right1">></button>
+<button type="button" id="validate1">Validate</button>
+<p id="validnost1"></p>
+<br>
+<br>
+
+<label><input id="number2"></label>
+<button type="button" id="left2"><</button>
+<button type="button" id="right2">></button>
+<button type="button" id="validate2">Validate</button>
+<p id="validnost2"></p>
+<br>
+<br>
+
+<label><input id="number3"></label>
+<button type="button" id="left3"><</button>
+<button type="button" id="right3">></button>
+<button type="button" id="validate3">Validate</button>
+<p id="validnost3"></p>
+
+<script type="text/javascript">
+
+
+    document.getElementById('left1').addEventListener('click',function (e){
+
+       e.preventDefault();
+
+        let number1=document.getElementById('number1').value;
+
+       let array = number1.split('-');
+
+       if (array.length!==4){
+           alert("Greska format na brojot");
+           return;
+       }else{
+           for (let i = 0; i < 4; i++) {
+               if(array[i].length!==4){
+                   alert("Greska format na brojot");
+                   return;
+               }
+           }
+       }
+
+       let max=array.length-1;
+       let newarray=[];
+       let j=0;
+        for (let i = 1; i < array.length; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[max]=array[0];
+        newarray=newarray.join('-');
+        document.getElementById('number1').value=newarray;
+       console.log(newarray);
+    });
+
+    document.getElementById('right1').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number1').value;
+
+        let array = number1.split('-');
+        let max=array.length-1;
+        let newarray=[];
+        let j=1;
+        for (let i = 0; i < array.length-1; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[0]=array[max];
+        newarray=newarray.join('-');
+        document.getElementById('number1').value=newarray;
+        console.log(newarray);
+    });
+
+    document.getElementById('validate1').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number1').value;
+
+        let array = number1.split('-');
+        let isValid=/^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}/.test(number1);
+        let v = document.getElementById('validnost1');
+        if(isValid===true) {
+            let groups = number1.split("-");
+            for (let group of groups) {
+                let digits = group.split(""); // Раздвој ги цифрите
+                for (let i = 0; i < digits.length; i++) {
+                    for (let j = i + 1; j < digits.length; j++) {
+                        if (digits[i] === digits[j]) {
+                            v.textContent= "Not valid";
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Ако сè е во ред
+            v.textContent="Valid";
+        }
+        else{
+            v.textContent="Not valid";
+        }
+
+        v.style.display="block";
+    });
+<!--- ----------------------------------------------------------------------------------------------------------- -->
+    document.getElementById('left2').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number2').value;
+
+        let array = number1.split('-');
+
+        if (array.length!==4){
+            alert("Greska format na brojot");
+            return;
+        }else{
+            for (let i = 0; i < 4; i++) {
+                if(array[i].length!==4){
+                    alert("Greska format na brojot");
+                    return;
+                }
+            }
+        }
+
+        let max=array.length-1;
+        let newarray=[];
+        let j=0;
+        for (let i = 1; i < array.length; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[max]=array[0];
+        newarray=newarray.join('-');
+        document.getElementById('number2').value=newarray;
+        console.log(newarray);
+    });
+
+    document.getElementById('right2').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number2').value;
+
+        let array = number1.split('-');
+        let max=array.length-1;
+        let newarray=[];
+        let j=1;
+        for (let i = 0; i < array.length-1; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[0]=array[max];
+        newarray=newarray.join('-');
+        document.getElementById('number2').value=newarray;
+        console.log(newarray);
+    });
+
+    document.getElementById('validate2').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number2').value;
+
+        let array = number1.split('-');
+        let isValid=/^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}/.test(number1);
+        let v = document.getElementById('validnost2');
+        if(isValid===true) {
+            let groups = number1.split("-");
+            for (let group of groups) {
+                let digits = group.split(""); // Раздвој ги цифрите
+                for (let i = 0; i < digits.length; i++) {
+                    for (let j = i + 1; j < digits.length; j++) {
+                        if (digits[i] === digits[j]) {
+                            v.textContent= "Not valid";
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Ако сè е во ред
+            v.textContent="Valid";
+        }
+        else{
+            v.textContent="Not valid";
+        }
+
+        v.style.display="block";
+    });
+<!--  ---------------------------------------------------------------------------------------------- ----->
+    document.getElementById('left3').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number3').value;
+
+        let array = number1.split('-');
+
+        if (array.length!==4){
+            alert("Greska format na brojot");
+            return;
+        }else{
+            for (let i = 0; i < 4; i++) {
+                if(array[i].length!==4){
+                    alert("Greska format na brojot");
+                    return;
+                }
+            }
+        }
+
+        let max=array.length-1;
+        let newarray=[];
+        let j=0;
+        for (let i = 1; i < array.length; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[max]=array[0];
+        newarray=newarray.join('-');
+        document.getElementById('number3').value=newarray;
+        console.log(newarray);
+    });
+
+    document.getElementById('right3').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number3').value;
+
+        let array = number1.split('-');
+        let max=array.length-1;
+        let newarray=[];
+        let j=1;
+        for (let i = 0; i < array.length-1; i++) {
+            newarray[j++]=array[i];
+        }
+        newarray[0]=array[max];
+        newarray=newarray.join('-');
+        document.getElementById('number3').value=newarray;
+        console.log(newarray);
+    });
+
+    document.getElementById('validate3').addEventListener('click',function (e){
+
+        e.preventDefault();
+
+        let number1=document.getElementById('number3').value;
+
+        let array = number1.split('-');
+        let isValid=/^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}/.test(number1);
+        let v = document.getElementById('validnost3');
+        if(isValid===true) {
+            let groups = number1.split("-");
+            for (let group of groups) {
+                let digits = group.split(""); // Раздвој ги цифрите
+                for (let i = 0; i < digits.length; i++) {
+                    for (let j = i + 1; j < digits.length; j++) {
+                        if (digits[i] === digits[j]) {
+                            v.textContent= "Not valid";
+                            return;
+                        }
+                    }
+                }
+            }
+
+            // Ако сè е во ред
+            v.textContent="Valid";
+        }
+        else{
+            v.textContent="Not valid";
+        }
+
+        v.style.display="block";
+    });
+
+</script>
+</body>
+</html>
