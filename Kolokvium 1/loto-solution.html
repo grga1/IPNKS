@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Loto</title>
+    <style>
+        #main-div{
+            width: 100%;
+            display: flex;
+        }
+        #div1{
+            width: 50%;
+        }
+        #div2{
+            width: 50%;
+        }
+        #karticki{
+            width: 320px;
+            height: 220px;
+            border: 2px solid black;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        #katicki,p{
+            margin-left: 10px;
+        }
+        #karticki,button{
+            margin-left: 10px;
+        }
+        #button2{
+            text-align: center;
+            width: 100px;
+        }
+        #combinations-cards{
+            flex-wrap: wrap;
+            display: flex;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="main-div">
+<div id="div1">
+
+<h1>Assign Form: </h1><br>
+<label>Name and surname: <input id="name"></label><br>
+<label>Code: <input id="code"></label><br>
+<label>Payment: <input id="payment"></label><br>
+<label>Combination(7 numbers): <input id="combination"></label><br>
+<label for="bonus">Bonus:
+<select name="bonus" id="bonus" >
+    <option id="no" value="no">no</option>
+    <option id="yes" value="yes">yes</option>
+</select></label><br>
+    <button type="button"  id="button1">Add Ticket</button>
+
+</div>
+
+    <div id="div2">
+   <h1>Lucky Numbers</h1>
+        <p>Weekly Numbers:</p> <br>
+        <div id="sreknibroevi"></div><br>
+        <button type="button" id="getnumbers" >Get Weekly Numbers</button>
+        <p>Total win:<span id="win">0</span></p>
+    </div>
+
+</div>
+
+<div id="combinations-cards">
+
+</div>
+
+<script type="text/javascript">
+    let counter=0;
+    let dobivka=0;
+
+
+    document.getElementById('button1').addEventListener('click',function (e){
+       e.preventDefault();
+
+       const name = document.getElementById('name').value;
+       const uplata = document.getElementById('payment').value;
+       const code = document.getElementById('code').value;
+       const combination = document.getElementById('combination').value;
+       let newcombination=combination.split(',');
+
+        let bonus = document.getElementById('bonus').value;
+        console.log(bonus);
+        if(bonus==="yes") {
+            console.log("tocno e ");}
+          // if(!(/^[a-z!%]+$/.test(code))){
+          //     alert("greska ti e kodot");
+          //     return;
+          // }
+
+
+        ++counter;
+        for (let i = 1; i < counter; i++) {
+            let string = document.getElementById(`kodotnadavinci${i}`).innerText;
+            if(code===string){
+                counter--;
+                alert("Vnesi drug kod");
+                console.log(counter);
+                return;
+            }
+        }
+
+         let div= document.createElement('div');
+          div.id=`karticki-${counter}`;
+          div.style.marginTop="10px";
+          div.style.marginLeft="10px";
+          div.style.height="220px";
+          div.style.width="320px";
+          div.style.border="2px solid black";
+
+          div.innerHTML=`<p>Name:${name}</p>
+                         <p id="kod">Code: <span id="kodotnadavinci${counter}">${code}</span></p>
+                         <p>Combination:<br><br><span id="s${counter}0" style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[0]}</span> <span id="s${counter}1"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[1]}</span>  <span id="s${counter}2"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[2]}</span>  <span id="s${counter}3"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[3]}</span>  <span id="s${counter}4"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[4]}</span>  <span id="s${counter}5"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[5]}</span>  <span id="s${counter}6"  style="border-radius: 10px;border: 2px solid black;padding: 3px">${newcombination[6]}</span></p>
+                         <p>Bonus:${bonus}</p>
+                         <button type="button" id="button2-${counter}">Get paid</button>
+                        <p style="display: none" id="dobivka${counter}" >0</p>
+                        <p style="display: none" id="a">0</p>
+                        <p style="display: none" id="uplata${counter}">${uplata}</p>
+`;
+
+
+          let kontejner = document.getElementById('combinations-cards');
+         kontejner.appendChild(div);
+         //
+         // if(counter===5){
+         //     document.getElementById('getnumbers').disabled=false;
+         // }
+
+        document.getElementById(`button2-${counter}`).addEventListener('click', function () {
+            const minus = document.getElementById(`a`).textContent;
+
+            if (bonus === "yes") {
+                dobivka = dobivka - parseInt(minus) - 500;
+            } else {
+                dobivka -= parseInt(minus);
+            }
+
+            document.getElementById('win').textContent = dobivka;
+            div.remove();
+        });
+
+
+
+    });
+
+
+    document.getElementById('getnumbers').addEventListener('click',function (){
+
+        function random(){
+            let x = parseInt(Math.random()*32);
+            if(x===0){
+                return 1;
+            }
+            return x;
+        }
+
+        let niza = [];
+        let j=0;
+
+        do{
+            let proverka=false;
+            let x = random();
+            for (let i = 0; i< niza.length; i++) {
+                if(x===niza[i]) {
+                    proverka = true;
+                    break;
+                }
+            }
+            if (proverka===false){
+                niza[j++]=x;
+            }
+        }while(parseInt(j)<7);
+
+
+
+        for (let i = 0; i < 7; i++) {
+            for (let j = 0; j < i; j++) {
+                if(niza[i]<niza[j]){
+                    temp = niza[i];
+                    niza[i]=niza[j];
+                    niza[j]=temp;
+                }
+            }
+        }
+
+        for (let i = 1; i <= counter; i++) {
+            let bingo = 0;
+            for (let j = 0; j < 7; j++) {
+                const userNumber = parseInt(document.getElementById(`s${i}${j}`).innerText);
+                if (niza.includes(userNumber)) {
+                    bingo++;
+                }
+            }
+
+if(bonus.value==="yes") {
+    console.log("tocno e ");
+    dobivka += (parseInt(document.getElementById(`uplata${i}`).textContent) * parseInt(bingo)+500);
+}
+else{
+    dobivka += parseInt(document.getElementById(`uplata${i}`).textContent) * parseInt(bingo);
+
+}
+           document.getElementById('win').textContent=dobivka;
+           document.getElementById(`dobivka${i}`).textContent=parseInt(document.getElementById(`uplata${i}`).textContent)*parseInt(bingo);
+           document.getElementById(`a`).textContent=parseInt(document.getElementById(`uplata${i}`).textContent)*parseInt(bingo);
+
+            const currentDiv = document.getElementById(`karticki-${i}`);
+            if (bingo <= 3) {
+                currentDiv.style.backgroundColor = "blue";
+            } else if (bingo >= 4 && bingo <= 5) {
+                currentDiv.style.backgroundColor = "yellow";
+            } else if (bingo >=6) {
+                currentDiv.style.backgroundColor = "green";
+            }
+        }
+
+
+        let dobitnibroevi = document.getElementById('sreknibroevi');
+        dobitnibroevi.innerHTML=`
+             <span style="border-radius: 10px;background-color:purple;border: 2px solid black;padding: 3px">${niza[0]}</span>
+             <span style="border-radius: 10px;background-color: yellow;border: 2px solid black;padding: 3px">${niza[1]}</span>
+             <span style="border-radius: 10px;background-color: aqua;border: 2px solid black;padding: 3px">${niza[2]}</span>
+             <span style="border-radius: 10px;background-color: chartreuse;border: 2px solid black;padding: 3px">${niza[3]}</span>
+             <span style="border-radius: 10px;background-color: darkcyan;border: 2px solid black;padding: 3px">${niza[4]}</span>
+             <span style="border-radius: 10px;background-color: firebrick;border: 2px solid black;padding: 3px">${niza[5]}</span>
+             <span style="border-radius: 10px;background-color: mediumslateblue;border: 2px solid black;padding: 3px">${niza[6]}</span>
+             `;
+
+    });
+
+</script>
+</body>
+</html>
