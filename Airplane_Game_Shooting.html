@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+#avion{
+    position: absolute;
+    top: 200px;
+}
+.laser {
+    position: absolute;
+    width: 5px;
+    height: 20px;
+    background-color: red;
+    border-radius: 5px;
+}
+#alien{
+    position: absolute;
+    width: 100px;
+    height: 150px;
+    right: 150px;
+}
+
+</style>
+<body>
+<button type="button" id="up">UP</button>
+<button type="button" id="down">Down</button>
+<button type="button" id="shoot">Shoot</button>
+
+    <img id="avion" src="https://www.freeiconspng.com/uploads/airplane-png-33.png">
+ <img id="alien" src="https://i.pinimg.com/originals/d7/c1/69/d7c1698bef6b7c147cb00b01e81433b1.png">
+<script type="text/javascript">
+
+   let avion = document.getElementById('avion');
+   let alien = document.getElementById('alien');
+ let position = 200;
+
+
+
+ document.getElementById('up').addEventListener('click',function (){
+      console.log("up");
+      if(position>50) {
+          position -= 20;
+          avion.style.top = `${position}px`;
+      }
+   });
+
+  function random(){
+      const max = window.innerHeight-100;
+      alien.style.top=Math.floor(Math.random()*max)+"px";
+  }
+  random();
+
+
+
+   document.getElementById('down').addEventListener('click',function (){
+       console.log("up");
+       if(position<440) {
+           position += 20;
+           avion.style.top = `${position}px`;
+           console.log(position);
+       }
+   });
+
+ document.getElementById('shoot').addEventListener('click',function (){
+     let laser = document.createElement('div');
+     laser.classList.add("laser");
+     laser.style.left='410px';
+     laser.style.top = position+110+'px';
+     document.body.appendChild(laser);
+
+     const laserInterval = setInterval(()=>{
+         const laserLeft = parseInt(laser.style.left);
+         if (laserLeft>window.innerWidth){
+             clearInterval(laserInterval);
+             laser.remove();
+         }else{
+             laser.style.left=laserLeft+10+"px";
+                hit(laser,laserInterval);
+         }
+     },20);
+
+
+
+
+     function hit(laser,laserInterval){
+         const laserRect = laser.getBoundingClientRect();
+         const alienRect = alien.getBoundingClientRect();
+
+         if(laserRect.top<alienRect.bottom&&
+             laserRect.bottom > alienRect.top &&
+             laserRect.left < alienRect.right &&
+             laserRect.right > alienRect.left){
+             clearInterval(laserInterval);
+             laser.remove();
+             alien.remove();
+             alert("POBEDA");
+             setTimeout(()=>{
+                 random();
+                 document.body.appendChild(alien);
+             },1000);
+         }
+     }
+
+
+ });
+
+</script>
+</body>
+</html>
