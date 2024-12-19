@@ -1,0 +1,136 @@
+<!-- Направете веб-страница каде што корисникот при кликање на копче генерира повеќе квадрати со случајни бои.
+Секој квадрат паѓа од врвот до дното на екранот и воедно неговата боја избледува како се движи надолѕ.
+Кога ќе се кликне на копчето Генерирај квадрати, страницата треба по случаен избор да создаде 10 квадрати. 
+Секој квадрат започнува од случајна позиција на горниот дел од екранот, падѓа на дното и избледува додека се движи. 
+Дополнително, страницата треба да содржи копче за ресетирање што ги брише сите квадрати од екранот што сè уште се во процес на анимирање.
+
+
+Create a web page where the user can click a button to generate multiple squares of random colors.
+Each square will fall from the top to the bottom of the screen and fade out as it reaches the bottom. 
+When the Generate Squares button is clicked, the page should randomly create 10 squares. 
+Each square will start from a random position at the top of the screen, fall to the bottom, and fade out as it moves. 
+Additionally, the page should include a Reset button that clears all squares from the screen that are still in the process of animating. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling and Fading Squares</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+
+        #main {
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #game {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .kocka {
+            position: absolute;
+            height: 40px;
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="main">
+    <h1>Falling and Fading Squares</h1>
+    <button type="button" id="generate">Generate Squares</button>
+    <button type="button" id="reset" class="reset" style="display: none;">Reset</button>
+</div>
+
+<div id="game"></div>
+
+<script type="text/javascript">
+    function getRandomRGBColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function isPositionValid(x, y, squares) {
+        for (let i = 0; i < squares.length; i++) {
+            const square = squares[i];
+            const distance = Math.sqrt(Math.pow(x - square.x, 2) + Math.pow(y - square.y, 2));
+            if (distance < 50) { // Prevent overlap (consider square size + padding)
+                return false;
+            }
+        }
+        return true;
+    }
+
+    document.getElementById('generate').addEventListener('click', function () {
+        const gameDiv = document.getElementById('game');
+        const squares = [];
+
+        for (let i = 0; i < 10; i++) {
+            const square = document.createElement('div');
+            square.classList.add('kocka');
+            square.style.backgroundColor = getRandomRGBColor();
+            square.style.top = '-60px';
+            square.style.opacity = 1;
+
+            let x, y;
+            do {
+                x = Math.random() * (window.innerWidth - 40); // Square width is 40px
+                y = Math.random() * (window.innerHeight - 40); // Square height is 40px
+            } while (!isPositionValid(x, y, squares));
+
+            square.style.left = `${x}px`;
+            square.style.top = `${y}px`;
+            gameDiv.appendChild(square);
+
+            squares.push({ x, y });
+
+            animateSquare(square);
+        }
+
+        document.getElementById('reset').style.display = 'inline-block';
+    });
+
+    function animateSquare(square) {
+        let topPosition = parseInt(square.style.top);
+        let opacity = 1;
+
+        const fallInterval = setInterval(function () {
+            if (topPosition < window.innerHeight) {
+                topPosition += 2;
+                opacity -= 0.005;
+
+                square.style.top = `${topPosition}px`;
+                square.style.opacity = opacity;
+            } else {
+                clearInterval(fallInterval);
+            }
+        }, 10);
+    }
+
+    document.getElementById('reset').addEventListener('click', function () {
+        const gameDiv = document.getElementById('game');
+        gameDiv.innerHTML = '';
+        document.getElementById('reset').style.display = 'none';
+    });
+</script>
+
+</body>
+</html>
