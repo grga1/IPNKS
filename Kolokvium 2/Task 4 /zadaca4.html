@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+</style>
+<body>
+<div id="container">
+
+</div>
+<button type="button" id="button">SORTIRAJ</button>
+
+<script type="text/javascript">
+    fetch(`avtomobili.json`)
+    .then(response=>response.json())
+    .then(car=>{
+        let container = document.getElementById('container');
+        function displayCars(){
+            container.innerHTML=``;
+            for (let i = 0; i < car.length; i++) {
+                let cars=car[i];
+                let div = document.createElement('div');
+                div.innerHTML=`
+            <p><b>marka:</b>${car[i].marka} <b>model:</b>${car[i].model}
+            <label><b>boja:</b><input type="color" class="boja" value="${car[i].boja}"></label>
+            <label><b>brzina:</b><input type="number" class="brzina" value="${car[i].brzina}"></label>
+ </p>
+`;
+
+                div.querySelector('.boja').addEventListener('input', function () {
+                    car[i].boja = this.value; 
+                });
+
+                div.querySelector('.brzina').addEventListener('input', function () {
+                    car[i].brzina = this.value; 
+                });
+
+                container.appendChild(div);
+            }
+        }
+
+
+
+        document.getElementById('button').addEventListener('click',function (){
+            car.sort(function (a,b){
+               return a.brzina-b.brzina;
+            });
+            displayCars();
+        })
+
+        displayCars();
+    });
+</script>
+</body>
+</html>
