@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #text{
+            height: 200px;
+            width: 300px;
+        }
+        #output{
+            position: relative;
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1>Game</h1>
+<textarea id="text"></textarea> <br>
+<button type="button" id="button">Prikazi</button>
+<div id="output">
+
+</div>
+<script type="text/javascript">
+
+
+    function rgb(){
+        const r = Math.floor(Math.random()*256);
+        const g = Math.floor(Math.random()*256);
+        const b = Math.floor(Math.random()*256);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    document.getElementById('button').addEventListener('click',function (){
+        let output = document.getElementById('output');
+        output.innerHTML=``;
+
+        let word = document.getElementById('text').value;
+        let words = word.split(/\s+/);
+         let niza = {};
+        words.forEach(word=>{
+          niza[word]=(niza[word]||0)+1;
+        });
+
+        words.forEach(word=>{
+           let size = 20+niza[word]*10;
+           let randomHeight = Math.floor((output.clientHeight-50)*Math.random());
+           let randomWidth = Math.floor((output.clientWidth-20)*Math.random());
+          let div = document.createElement('div');
+          div.style.position="absolute";
+          div.style.color=rgb();
+          div.style.left=`${randomWidth}px`;
+          div.style.top=`${randomHeight}px`;
+          div.style.fontSize=`${size}px`;
+div.textContent=word;
+output.appendChild(div);
+        });
+    });
+
+</script>
+</body>
+</html>
