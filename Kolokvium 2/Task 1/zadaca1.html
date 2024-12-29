@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Прикажи Зборови</title>
+    <style>
+        input {
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            font-size: 50px;
+        }
+    </style>
+</head>
+<body>
+<h1>GAME</h1>
+<div id="container">
+    <div>
+        <input id="1-0">
+        <input id="2-0">
+        <input id="3-0">
+        <input id="4-0">
+        <input id="5-0">
+    </div>
+</div>
+<script>
+    let row = 0;
+let c=0;
+    fetch('avtomobili.json')
+        .then(response => response.json())
+        .then(words => {
+
+            let kontejner = document.getElementById("container");
+
+            const number = Math.floor(Math.random() * 9);
+            const word = words[number].word.split('');
+            console.log("Word:", word);
+
+            function proverka() {
+                let counter = 0;
+
+                let input1 = document.getElementById(`1-${row}`);
+                let input2 = document.getElementById(`2-${row}`);
+                let input3 = document.getElementById(`3-${row}`);
+                let input4 = document.getElementById(`4-${row}`);
+                let input5 = document.getElementById(`5-${row}`);
+
+                function check(input, index) {
+                    input.addEventListener('input', function () {
+                        if (input.value === word[index]) {
+                            counter++;
+                            input.style.backgroundColor = "green";
+                        } else {
+                            for (let i = 0; i < 5; i++) {
+                                if (input.value === word[i]) {
+                                    input.style.backgroundColor = "yellow";
+                                }
+                            }
+                        }
+                        if (counter === 5) {
+                            alert("GO POГОДИВТЕ ЗБОРОТ!");
+                            return; // Stop further processing
+                        }
+
+         if((input1.value!==""&&input2.value!==""&&input3.value!==""&&input4.value!==""&&input5.value!=="")&&counter<5){
+addNewRow();
+         }
+
+                    });
+                }
+
+
+                // Врзување на слушачи за сите полиња
+                check(input1, 0);
+                check(input2, 1);
+                check(input3, 2);
+                check(input4, 3);
+                check(input5, 4);
+             console.log(c);
+            }
+
+            function addNewRow(){
+                row++;
+let div = document.createElement('div');
+div.innerHTML=`<input id="1-${row}">
+        <input id="2-${row}">
+        <input id="3-${row}">
+        <input id="4-${row}">
+        <input id="5-${row}">`;
+kontejner.appendChild(div);
+            proverka();
+            }
+
+
+            proverka();
+        });
+</script>
+</body>
+</html>
