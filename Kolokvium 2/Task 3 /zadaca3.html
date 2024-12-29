@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/
+ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <title>Document</title>
+    <style>
+     h1{
+         text-align: center;
+         height: 50px;
+     }
+     button{
+         margin: auto;
+         display: block;
+     }
+     .kocka{
+         width: 100px;
+         height: 100px;
+         border: 1px solid black;
+     }
+     #container{
+         width: 100%;
+         position: relative;
+         height: 500px;
+     }
+    </style>
+</head>
+<body>
+<h1>ANIMACIJA</h1>
+<button type="button" id="button">START</button>
+<hr>
+<div id="container">
+
+</div>
+<script type="text/javascript">
+
+    function rgb(){
+        const r = Math.floor(Math.random()*256);
+        const g = Math.floor(Math.random()*256);
+        const b = Math.floor(Math.random()*256);
+        return `rgb(${r},${g},${b})`;
+    }
+
+    document.getElementById('button').addEventListener('click',function (){
+
+      let container =  document.getElementById('container');
+        for (let i = 0; i < 10; i++) {
+           let div = document.createElement('div');
+            div.className=`kocka`;
+            div.style.backgroundColor=rgb();
+            let randomHeight = Math.floor((container.clientHeight-50)*Math.random());
+            let randomWidth = Math.floor((container.clientWidth-20)*Math.random());
+            div.style.left=`${randomWidth}px`;
+            div.style.top=`${randomHeight}px`;
+            div.style.position=`absolute`;
+            container.appendChild(div);
+
+            anime({
+                targets: div,
+                translateY: 500, // Поместување надолу
+                opacity: [1, 0], // Намалување на opacity
+                duration: 5000, // Времетраење
+                easing: 'easeInOutQuad',
+                complete: function () {
+                    div.remove(); // Отстрани ја "кочката" по завршување
+                }
+            });
+        }
+
+    });
+
+</script>
+</body>
+</html>
