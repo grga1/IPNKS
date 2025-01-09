@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+ #avion{
+     position: absolute;
+     top: 200px;
+     height: 100px;
+ }
+ #alien{
+     position: absolute;
+     height: 100px;
+     right: 150px;
+ }
+ .laser{
+     position: absolute;
+     height: 5px;
+     width: 20px;
+     background-color: red;
+     border-radius: 10px;
+ }
+    </style>
+</head>
+<body>
+<button type="button" id="up">UP</button>
+<button type="button" id="down">DOWN</button>
+<button type="button" id="shoot">SHOOT</button>
+
+<img src="avion.png" id="avion">
+<img src="alien.png" id="alien">
+
+<script type="text/javascript">
+let avion = document.getElementById('avion');
+let alien = document.getElementById('alien');
+let position = 200;
+    function random(){
+        let max = window.innerHeight-100;
+        let position = Math.floor(Math.random()*max);
+        alien.style.top=`${position}px`;
+
+    }
+random();
+
+    document.getElementById('up').addEventListener("click",function (){
+       if(position>50){
+           position-=20;
+           avion.style.top=`${position}px`;
+       }
+    });
+
+document.getElementById('down').addEventListener("click",function (){
+    if(position<620){
+        position+=20;
+        avion.style.top=`${position}px`;
+    }
+});
+
+document.getElementById('shoot').addEventListener('click',function (){
+   let laser = document.createElement('div');
+   laser.classList.add('laser');
+ laser.style.top=position+60+"px";
+    laser.style.left='440px';
+   document.body.appendChild(laser);
+
+
+   let laserInterval = setInterval(()=>{
+       let laserLeft = parseInt(laser.style.left);
+       if(laserLeft>window.innerWidth){
+           clearInterval(laserInterval);
+           laser.remove();
+       }else{
+           laser.style.left=laserLeft+20+"px";
+           hit(laser,laserInterval);
+       }
+   },20);
+});
+
+
+function hit(laser,laserInterval){
+    let alienRect = alien.getBoundingClientRect();
+    let laserRect = laser.getBoundingClientRect();
+
+    if(laserRect.bottom>alienRect.top&&laserRect.top<alienRect.bottom&&laserRect.left<alienRect.right&&laserRect.right>alienRect.left){
+        clearInterval(laserInterval);
+        alien.remove();
+        laser.remove();
+        alert("POBEDA");
+        setTimeout(()=>{
+            random();
+            document.body.appendChild(alien);
+        },1000);
+    }
+
+}
+</script>
+</body>
+</html>
