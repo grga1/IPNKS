@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h1>Budget Tracker</h1>
+<label>Category:<input type="text" id="category"></label><br>
+<label>Amount:<input type="text" id="amount"></label><br>
+<button type="button" id="add">Add Expense</button> <button type="button" id="show">Show pie Chart</button>
+
+<ul id="lista">
+<li>Rent-100$</li>
+<li>Bills-30$</li>
+<li>Groceries-30$</li>
+<li>Books-20$</li>
+</ul>
+
+<div id="myDiv"></div>
+<script type="text/javascript">
+    let labels = ['Rent', 'Bills', 'Groceries', 'Books'];
+    let values = [100, 30, 30, 20];
+    let kategorija = document.getElementById('category').value;
+    let kolicina = document.getElementById('amount').value;
+
+    let lista = document.getElementById('lista');
+
+    document.getElementById('add').addEventListener('click',function (){
+
+        let kategorija = document.getElementById('category').value;
+        let kolicina = document.getElementById('amount').value;
+
+        let lista = document.getElementById('lista');
+        let li = document.createElement('li');
+       li.innerHTML=`${kategorija}-${kolicina}`;
+       lista.appendChild(li);
+  values.push(kolicina);
+  labels.push(kategorija);
+
+
+        document.getElementById('category').value="";
+        document.getElementById('amount').value="";
+
+    });
+
+    var data = [{
+        values: values,
+        labels: labels,
+        type: 'pie'
+    }];
+    var layout = {
+        height: 400,
+        width: 500
+    };
+
+    Plotly.newPlot('myDiv', data, layout);
+
+    document.getElementById('show').addEventListener('click',function (){
+
+        Plotly.newPlot('myDiv', data, layout);
+    });
+</script>
+</body>
+</html>
