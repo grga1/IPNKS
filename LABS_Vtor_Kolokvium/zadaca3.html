@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            text-align: center;
+        }
+        button {
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        #reset {
+            margin-left: 20px;
+        }
+        #animacija {
+            padding: 50px;
+            margin: auto;
+            width: 500px;
+            height: 1000px;
+            border: 2px solid black;
+        }
+        .krug1, .krug2, .krug3 {
+            margin: auto;
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+<h1>Color Shape Animations</h1>
+<label>Choose a color:
+    <select id="select">
+        <option value="select">--Select--</option>
+        <option value="red">Red</option>
+        <option value="yellow">Yellow</option>
+        <option value="blue">Blue</option>
+    </select>
+</label> <br>
+<button type="button" id="stop">Stop Animation</button>
+<button type="button" id="reset">Reset</button> <br>
+<div id="animacija">
+
+</div>
+<script type="text/javascript">
+    let pole = document.getElementById('animacija');
+    let redAnimation = null;
+    let yellowAnimation = null;
+    let blueAnimation = null;
+
+    document.getElementById('select').addEventListener('input', function () {
+        let value = document.getElementById('select').value;
+
+        if (value === "red") {
+            let krug = document.createElement('div');
+            pole.appendChild(krug);
+            krug.classList.add("krug1");
+
+            redAnimation = anime({
+                targets: '.krug1',
+                height: 200,
+                width: 200,
+                backgroundColor: '#FF3727',
+                easing: 'easeInOutExpo',
+                loop: true
+            });
+        }
+
+        if (value === "blue") {
+            let krug = document.createElement('div');
+            pole.appendChild(krug);
+            krug.classList.add("krug3");
+
+            blueAnimation = anime({
+                targets: '.krug3',
+                backgroundColor: '#0B13FF',
+                translateY: 300,
+                loop: true,
+                direction: 'alternate',
+                easing: 'easeInOutCirc',
+            });
+        }
+
+        if (value === "yellow") {
+            let krug = document.createElement('div');
+            pole.appendChild(krug);
+            krug.classList.add("krug2");
+
+            yellowAnimation = anime({
+                targets: '.krug2',
+                left: '240px',
+                backgroundColor: '#FFF200',
+                easing: 'easeInOutQuad',
+                loop: true
+            });
+        }
+    });
+
+    document.getElementById('stop').addEventListener('click', function () {
+        if (redAnimation) redAnimation.pause();
+        if (yellowAnimation) yellowAnimation.pause();
+        if (blueAnimation) blueAnimation.pause();
+    });
+    
+    document.getElementById('reset').addEventListener('click', function () {
+        if (redAnimation) redAnimation.pause();
+        if (yellowAnimation) yellowAnimation.pause();
+        if (blueAnimation) blueAnimation.pause();
+
+        redAnimation = null;
+        yellowAnimation = null;
+        blueAnimation = null;
+
+        pole.innerHTML = "";
+    });
+</script>
+</body>
+</html>
