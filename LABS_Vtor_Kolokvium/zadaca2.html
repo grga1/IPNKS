@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .f{
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            border: 2px solid black;
+        margin-left: 10px;
+        }
+        #filmovi{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+ <h1>Watch List</h1>
+<h3>Add a Movie</h3>
+<label>Title:<input type="text" id="title" placeholder="Enter a movie title"></label><br>
+<label>Genre:<input type="text" id="genre" placeholder="Enter a movie genre"></label><br>
+<label>
+    Status:
+    <input type="radio" name="status" value="Watched" id="watched">Watched
+    <input type="radio"  name="status " value="To Watch" id="towatch">To Watch
+</label><br>
+<label>Rating: <input type="number" id="rating" placeholder="Rate out of 10"></label><br>
+<button type="button" id="add">Add movie</button>
+<hr>
+<h3>Your Movies</h3>
+<p>Filter by status: <select id="filter"><option>View All</option>
+    <option>To watch</option>
+    <option>Watched</option>
+</select>
+<button type="button" id="fillter">Fillter</button></p>
+<p>Search by Genre: <input type="text" placeholder="Enter genre" id="search_genre"> <button type="button" id="search">Search</button></p>
+<div id="filmovi">
+
+</div>
+<script type="text/javascript">
+ //ako status e 1 togas filmot e gledan else treba da se gleda filmot za prv pat
+    class film{
+        constructor(title, genre,status,rating) {
+            this.title = title;
+            this.genre = genre;
+            this.status = status;
+            this.rating = rating;
+        }
+    }
+
+    let array = [];
+    document.getElementById('add').addEventListener('click',function () {
+
+let status=0;
+        let title = document.getElementById('title').value;
+        let genre = document.getElementById('genre').value;
+        if (document.getElementById('towatch').checked) {
+             status=1;
+        }
+        else if(document.getElementById('watched').checked){
+            status=0;
+        }
+        let rating = document.getElementById('rating').value;
+        let div = document.createElement('div');
+        if(status===0) {
+ div.classList.add("f");
+            div.innerHTML = `
+        <p>${title}</p>
+        <p>${genre}</p>
+        <p>Your rating: ${rating}/10</p>
+`;
+        }
+        else
+        {
+            div.classList.add("f");
+            div.innerHTML = `
+        <p>${title}</p>
+        <p>${genre}</p>
+      <button type="button" class="remove">Remove</button>
+`;
+        }
+
+        let filmovi = document.getElementById('filmovi');
+        filmovi.appendChild(div);
+
+
+if(status===1) {
+    document.querySelector('.remove').addEventListener('click', function () {
+        div.remove();
+    });
+
+}
+        let newFilm = new film(title,genre,status,rating);
+  array.push(newFilm);
+        document.getElementById('title').value = "";
+        document.getElementById('genre').value = "";
+        document.getElementById('rating').value = "";
+        document.getElementById('watched').checked = false;
+        document.getElementById('towatch').checked = false;
+
+        document.getElementById('search').addEventListener('click', function () {
+            let searchGenre = document.getElementById('search_genre').value.toLowerCase(); // Get the search value and make it lowercase
+            let movieDivs = document.querySelectorAll('#filmovi .f'); // Get all movie divs
+
+            for (let i = 0; i < array.length; i++) {
+                let movie = array[i]; // Get the current movie object
+                let movieDiv = movieDivs[i]; // Get the corresponding div
+
+                // Check if the genre matches the search term
+                if (movie.genre.toLowerCase() === searchGenre || searchGenre === "") {
+                    movieDiv.style.display = "block"; // Show matching movies
+                } else {
+                    movieDiv.style.display = "none"; // Hide non-matching movies
+                }
+            }
+        });
+
+
+        document.getElementById('fillter').addEventListener('click',function (){
+           let filmovi = document.querySelectorAll('#filmovi .f');
+           let filter = document.getElementById('filter').value;
+            for (let i = 0; i <array.length ; i++) {
+                if(array[i].status.value===1&&filter.value==="To watch"){
+                    filmovi[i].style.display="block";
+                }
+                else
+                {
+                    filmovi[i].style.display="none";
+
+                }
+            }
+        });
+
+        document.getElementById('fillter').addEventListener('click', function () {
+            let filmovi = document.querySelectorAll('#filmovi .f'); // Get all movie divs
+            let filter = document.getElementById('filter').value; // Get the selected filter value
+ if(filter==="To watch"){
+     filter=1;
+ }
+ else {
+     filter=0;
+ }
+            for (let i = 0; i < array.length; i++) {
+                if (filter === "View All" || array[i].status === filter) {
+                    filmovi[i].style.display = "block"; // Show matching movies
+                } else {
+                    filmovi[i].style.display = "none"; // Hide non-matching movies
+                }
+            }
+        });
+    });
+
+
+
+</script>
+</body>
+
+</html>
