@@ -1,0 +1,22 @@
+[
+  {
+    "color": "red",
+    "width": "100px",
+    "backgroundColor": "yellow"
+  },
+  {
+    "color": "blue",
+    "width": "200px",
+    "backgroundColor": "black"
+  },
+  {
+    "color": "black",
+    "width": "auto",
+    "backgroundColor": "transparent"
+  },
+  {
+    "color": "green",
+    "width": "400px",
+    "backgroundColor": "lightgray"
+  }
+]
