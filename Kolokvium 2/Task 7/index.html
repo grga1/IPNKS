@@ -20,7 +20,7 @@
 
     let text = document.getElementById('text');
 
-    fetch('avtomobili.json')
+    fetch('index.json')
     .then(response=>response.json())
     .then(stilovi =>{
         for (let i = 0; i < stilovi.length; i++) {
