@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .f{
+            height: 100px;
+            width: 100px;
+            border: 2px solid black;
+        }
+        #output{
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+<label>
+    Colors
+    <br>
+    <input type="text" id="colors">
+</label>
+<br>
+<label>
+    Delimiter
+    <br>
+    <input type="text" id="deli">
+</label>
+<br>
+<button type="button" id="btn">Draw</button>
+
+<div id="output">
+
+</div>
+<script type="text/javascript">
+
+    let output = document.getElementById('output');
+  
+    document.getElementById('btn').addEventListener('click',function () {
+  
+      let colors = document.getElementById('colors').value;
+      let deli = document.getElementById('deli').value;
+      
+      colors = colors.split(`${deli}`);
+      
+      for (let i = 0; i < colors.length; i++) {
+      
+        let div = document.createElement('div');
+            div.style.color=colors[i];
+            div.classList.add("f");
+            div.style.backgroundColor=colors[i];
+            output.appendChild(div);
+        
+        div.addEventListener('click',function (){
+                div.remove();
+        });
+        
+        }
+
+    });
+
+</script>
+</body>
+</html>
