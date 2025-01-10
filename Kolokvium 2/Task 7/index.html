@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<p id="text">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. At eligendi eos illo iste laudantium modi nemo nihil obcaecati placeat, praesentium quam qui quibusdam quisquam rem sapiente sed sit ullam voluptatum!
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolorem doloremque quo. Ad cupiditate facere impedit ipsam nesciunt nihil obcaecati qui sunt tempora temporibus! Dolore fugit ipsam maiores quidem tempora?
+</p>
+<label>color<select id="color"></select></label>
+<label>width<select id="width"></select></label>
+<label>background-color<select id="bgcolor"></select></label>
+<script>
+
+    let text = document.getElementById('text');
+
+    fetch('avtomobili.json')
+    .then(response=>response.json())
+    .then(stilovi =>{
+        for (let i = 0; i < stilovi.length; i++) {
+         let option1 = document.createElement("option");
+         let option2 = document.createElement("option");
+         let option3 = document.createElement("option");
+
+            option1.textContent=stilovi[i].color;
+            option1.value=stilovi[i].color;
+
+            option2.textContent=stilovi[i].width;
+            option2.value=stilovi[i].width;
+
+            option3.textContent=stilovi[i].backgroundColor;
+            option3.value=stilovi[i].backgroundColor;
+
+            let s1 = document.getElementById('color');
+            let s2 = document.getElementById('width');
+            let s3 = document.getElementById('bgcolor');
+
+            s1.appendChild(option1);
+            s2.appendChild(option2);
+            s3.appendChild(option3);
+
+            console.log(stilovi[i].color);
+        }
+    });
+
+    document.getElementById('color').addEventListener('input',function (){
+        text.style.color=document.getElementById('color').value;
+    });
+
+    document.getElementById('width').addEventListener('input',function (){
+        text.style.width=document.getElementById('width').value;
+    });
+
+    document.getElementById('bgcolor').addEventListener('input',function (){
+        text.style.backgroundColor=document.getElementById('bgcolor').value;
+    });
+</script>
+</body>
+</html>
