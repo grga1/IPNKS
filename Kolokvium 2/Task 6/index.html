@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/
+ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <style>
+        #output{
+            position: relative;
+            width: 100%;
+            height: 500px;
+        }
+        .snegulka{
+            height: 100px;
+            width: 100px;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="output"></div>
+  <script type="text/javascript">
+      let output = document.getElementById("output");
+      function randomSnegulka(){
+          let number = Math.floor(Math.random()*6)+1;
+          return `s${number}.png`;
+      }
+      function randomSpeed(){
+         return Math.floor(Math.random()*10000)+1000;
+      }
+let counter=0;
+console.log(randomSnegulka());
+      for (let i = 0; i < 10; i++) {
+          let snegulka = document.createElement('img');
+          snegulka.src = randomSnegulka();
+
+          let randomWidth = Math.floor((output.clientWidth - 50) * Math.random());
+          let randomHeight = Math.floor((output.clientHeight - 20) * Math.random());
+          console.log(randomHeight);
+          snegulka.classList.add("snegulka");
+          snegulka.style.left = `${randomWidth}px`;
+          snegulka.style.top = `${randomHeight}px`;
+          output.appendChild(snegulka);
+          anime({
+              targets: snegulka,
+              translateY: 500,
+              opacity:[1,0],
+              duration:randomSpeed(),
+              easing:'easeInOutQuad',
+              complete:function (){
+                  snegulka.remove();
+              }
+          });
+          let interval = setInterval(() => {
+              if (counter < 10) {
+                  counter++;
+
+              } else {
+                  clearInterval(interval);
+              }
+
+          });
+      }
+  </script>
+</body>
+</html>
