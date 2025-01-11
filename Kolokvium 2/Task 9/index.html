@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/
+ajax/libs/animejs/3.2.0/anime.min.js"></script>
+    <style>
+        *{
+            margin: 0;
+        }
+        button:nth-child(1){
+            margin-left: 10px;
+            margin-top: 20px;
+        }
+        #shape0{
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            background-color: red;
+            margin-left: 0;
+            left: 0px;
+        }
+        #shape1{
+            position: absolute;
+            height: 300px;
+            width: 100px;
+            background-color: green;
+            margin-left: 0;
+            left: 0px;
+        }
+        #shape2{
+            position: absolute;
+            height: 100px;
+            width: 300px;
+            background-color: blue;
+            margin-left: 0;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+<button type="button" id="left"><</button>
+<button type="button" id="right">></button>
+<div id="shape0"></div>
+<script>
+    let counter = 0;
+    let shape1 = document.createElement('div');
+
+    let shape2 = document.createElement('div');
+
+    let shape3 = document.createElement('div');
+
+
+    document.getElementById('right').addEventListener('click',function (){
+
+        let shape = document.getElementById(`shape${counter}`);
+
+       anime({
+         targets:`#shape${counter}`,
+         translateX:1500,
+         duration:5000,
+         easing:'easeInOutQuad',
+         complete:function (){
+             counter++;
+             if(counter>=3){
+                 counter=0;
+             }
+             shape.remove();
+             let newshape = document.createElement('div');
+             newshape.id=`shape${counter}`;
+             document.body.appendChild(newshape);
+
+         }
+       });
+    });
+
+
+
+    document.getElementById('left').addEventListener('click',function (){
+
+        let shape = document.getElementById(`shape${counter}`);
+
+        anime({
+            targets:`#shape${counter}`,
+            translateX:-300,
+            duration:3000,
+            easing:'easeInOutQuad',
+            complete:function (){
+                counter--;
+                if(counter<0){
+                    counter=2;
+                }
+                shape.remove();
+                let newshape = document.createElement('div');
+                newshape.id=`shape${counter}`;
+                document.body.appendChild(newshape);
+
+            }
+        });
+    });
+
+
+
+
+</script>
+</body>
+</html>
