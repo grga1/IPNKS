@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+
+    </script>
+</head>
+<body>
+<label>Red:<input type="number" id="red">(0-255)</label> <br>
+<label>Green:<input type="number" id="green">(0-255)</label> <br>
+<label>Blue:<input type="number" id="blue">(0-255)</label> <br>
+<label><input type="radio" id="start" name="position">Start</label> <br>
+<label><input type="radio" id="end" name="position">End</label> <br>
+<label>Text:<input type="text" id="text"></label> <br>
+<button type="button" id="add">ADD</button>
+<button type="button" id="delete">Delete</button>
+<div id="output"></div>
+<script type="text/javascript">
+
+    let output = document.getElementById('output');
+
+
+
+    document.getElementById('add').addEventListener('click',function (){
+
+
+
+        let r = document.getElementById('red').value;
+        let g = document.getElementById('green').value;
+        let b = document.getElementById('blue').value;
+        let rgb = `rgb(${r},${g},${b})`;
+
+        let text = document.getElementById('text').value;
+        let start = document.getElementById('start').checked;
+        let end = document.getElementById('end').checked;
+
+        if(!r||!g||!b||!text||(!start&&!end)){
+            alert("Popolni gi polinjata");
+            return 0;
+        }
+
+
+        let paragraf = document.createElement('p');
+         paragraf.style.color=rgb;
+         paragraf.textContent=text;
+        console.log(r);
+
+         console.log(rgb);
+         if(end){
+             output.appendChild(paragraf);
+              document.getElementById('text').value="";
+             document.getElementById('red').value="";
+             document.getElementById('green').value="";
+             document.getElementById('blue').value="";
+             document.getElementById('end').checked=false;
+         }
+         else
+         {
+             output.prepend(paragraf);
+             document.getElementById('text').value="";
+             document.getElementById('red').value="";
+             document.getElementById('green').value="";
+             document.getElementById('blue').value="";
+             document.getElementById('end').checked=false;
+         }
+    });
+
+
+    document.getElementById('delete').addEventListener('click',function (){
+
+        if(output.children.length===0){
+            alert("NEMAS DODADENO TEKST");
+            return 0;
+        }
+        let start = document.getElementById('start').checked;
+
+        if (start){
+            document.getElementById('start').checked=false;
+            output.firstChild.remove();
+        }
+        else{
+            document.getElementById('end').checked=false;
+            output.lastChild.remove();
+        }
+    });
+
+</script>
+</body>
+</html>
