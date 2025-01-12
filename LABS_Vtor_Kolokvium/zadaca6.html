@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        table,tr,td,th{
+            border: 2px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Weather Tracker</h1>
+<label>City:<input type="text" id="city"></label><br>
+<label>Temperature:(&deg;):<input type="text" id="temperature"></label> <br>
+<label>Day of Month<input type="number" id="day"></label><br>
+<button type="button" id="add">Add Record</button><br>
+<h3>Temperature Records</h3>
+<table id="tabela">
+    <tr>
+        <th><b>City</b></th>
+        <th><b>Temperature:(&deg;)</b></th>
+        <th><b>Day</b></th>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>12</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>14</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>16</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>11</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Skopje</td>
+        <td>12</td>
+        <td>5</td>
+    </tr>
+    <tr>
+        <td>Veles</td>
+        <td>10</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Veles</td>
+        <td>11</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Veles</td>
+        <td>14</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Veles</td>
+        <td>9</td>
+        <td>4</td>
+    </tr>
+    <tr>
+        <td>Gevgelija</td>
+        <td>15</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Gevgelija</td>
+        <td>17</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Gevgelija</td>
+        <td>19</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Gevgelija</td>
+        <td>13</td>
+        <td>4</td>
+    </tr>
+</table>
+<button type="button" id="show">Show Line Chart</button>
+<div id="myDiv"></div>
+<script type="text/javascript">
+
+        document.getElementById('add').addEventListener('click', function () {
+            let tr = document.createElement('tr');
+            let table = document.getElementById('tabela');
+
+            let city = document.getElementById('city').value;
+            let temperature = document.getElementById('temperature').value;
+            let day = document.getElementById('day').value;
+
+            tr.innerHTML = `
+               <td>${city}</td>
+               <td>${temperature}</td>
+               <td>${day}</td>
+               `;
+            table.appendChild(tr);
+
+            // Update the data for the chart
+            updateCityData(city, parseFloat(temperature), parseInt(day));
+        });
+
+        let citiesData = {
+            Skopje: { days: [1, 2, 3, 4, 5], temperatures: [12, 14, 16, 11, 12] },
+            Veles: { days: [1, 2, 3, 4], temperatures: [10, 11, 14, 9] },
+            Gevgelija: { days: [1, 2, 3, 4], temperatures: [15, 17, 19, 13] },
+        };
+
+        function updateCityData(city, temperature, day) {
+            if (!citiesData[city]) {
+                citiesData[city] = { days: [], temperatures: [] };
+            }
+            citiesData[city].days.push(day);
+            citiesData[city].temperatures.push(temperature);
+        }
+
+        document.getElementById('show').addEventListener('click', function () {
+            const data = [];
+
+            for (const city in citiesData) {
+                 data.push({
+                    x: citiesData[city].days,
+                    y: citiesData[city].temperatures,
+                    type: 'scatter',
+                    name: city,
+                });
+            }
+
+            Plotly.newPlot('myDiv', data);
+        });
+  </script>
+
+</body>
+</html>
